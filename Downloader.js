@@ -2,8 +2,11 @@ var fs = require('fs');
 var request = require('request');
 
 module.exports = function Downloader(urls, apiKey) {
+
+	var pictureList = [];
 	
-	return Promise.all(urls.filter(validURL).map(downloadAndSave));
+	return Promise.all(urls.filter(validURL).map(downloadAndSave))
+		.then(serialisePictureList);
 
 	function validURL(url) {
 		return url.startsWith('http');
@@ -18,6 +21,7 @@ module.exports = function Downloader(urls, apiKey) {
 		
 		return getPhotoInfo(urlInfo.id)
 			.then(parseBody)
+			.then(addToListOfPictures)
 			.then(extractImageURL)
 			.then(downloadImage)
 			.then((res) => {
@@ -56,6 +60,11 @@ module.exports = function Downloader(urls, apiKey) {
 		return new Promise((ok, fail) => {
 			ok(JSON.parse(text));
 		});
+	}
+
+	function addToListOfPictures(body) {
+		pictureList.push(body);
+		return Promise.resolve(body);
 	}
 
 	function extractImageURL(photoInfo) {
@@ -103,6 +112,13 @@ module.exports = function Downloader(urls, apiKey) {
 			});
 		});
 
+	}
+
+	
+	function serialisePictureList() {
+		var serialised = JSON.stringify(pictureList, null, '  ');
+		fs.writeFileSync('downloaded-pictures.json', serialised, 'utf-8');
+		return Promise.resolve(pictureList);
 	}
 
 };

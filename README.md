@@ -60,7 +60,9 @@ You can get an API key at Flickr's developer site: https://www.flickr.com/servic
 
 Downloading all the pictures will take some time. It depends on how many pictures you have, the speed of your connection, the size of the pictures, etc.
 
-Once the process is finished, you will find the pictures in the same folder. Not very elegant, but it works. Remember to move them to a safe place!
+Once the process is finished, you will find the pictures and a file called `downloaded-pictures.json` in the same folder. The JSON file contains metadata about the pictures, which you can use to insert them into your own self-hosted service, e.g. the picture title, etc.
+
+Not very elegant, but it works. Remember to move the downloaded data to a safe place!
 
 ## config.json
 
@@ -68,7 +70,7 @@ You can also have a configuration file to avoid having to re-enter the API key e
 
 If there is a `config.json` file, the script will try to read the key from there if it hasn't been provided using the `--api-key` parameter.
 
-The script will not work without an API key.
+The script will **not** work without an API key.
 
 ## Inspiration and credits
 

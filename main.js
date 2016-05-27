@@ -40,6 +40,7 @@ Downloader(urls, apiKey).then((res) => {
 	console.log(res);
 }).catch(function(horror) {
 	console.error("Something terrible happened");
+	console.error(horror);
 	throw(horror);
 });
 
